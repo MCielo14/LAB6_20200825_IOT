@@ -4,12 +4,17 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.DatePicker;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.example.lab6_20200825_iot.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.credentials.Credentials;
@@ -20,7 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CrearIngreso extends AppCompatActivity {
+public class CrearEgreso extends AppCompatActivity {
 
     private EditText tituloEditText, descripcionEditText, montoEditText;
     private Button fechaButton, horaButton, guardarButton;
@@ -31,7 +36,7 @@ public class CrearIngreso extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_ingreso);
+        setContentView(R.layout.activity_crear_egreso);
 
         tituloEditText = findViewById(R.id.titulonuevo);
         descripcionEditText = findViewById(R.id.descricionnuevo);
@@ -51,23 +56,23 @@ public class CrearIngreso extends AppCompatActivity {
         Button resumen = findViewById(R.id.resumenbutton);
         Button cerrarSesionButton = findViewById(R.id.cerrarsession);
         ingreso.setOnClickListener(v -> {
-            Intent intent1 = new Intent(CrearIngreso.this, ListaIngreso.class);
+            Intent intent1 = new Intent(CrearEgreso.this, ListaIngreso.class);
             startActivity(intent1);
         });
         egreso.setOnClickListener(v -> {
-            Intent intent1 = new Intent(CrearIngreso.this, ListarEgreso.class);
+            Intent intent1 = new Intent(CrearEgreso.this, ListarEgreso.class);
             startActivity(intent1);
         });
         resumen.setOnClickListener(v -> {
-            Intent intent1 = new Intent(CrearIngreso.this, Resumen.class);
+            Intent intent1 = new Intent(CrearEgreso.this, Resumen.class);
             startActivity(intent1);
         });
         cerrarSesionButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            AuthUI.getInstance().signOut(CrearIngreso.this)
+            AuthUI.getInstance().signOut(CrearEgreso.this)
                     .addOnCompleteListener(task -> {
-                        Credentials.getClient(CrearIngreso.this).disableAutoSignIn();
-                        Intent loginIntent = new Intent(CrearIngreso.this, MainActivity.class);
+                        Credentials.getClient(CrearEgreso.this).disableAutoSignIn();
+                        Intent loginIntent = new Intent(CrearEgreso.this, MainActivity.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(loginIntent);
                         finish();
@@ -97,7 +102,7 @@ public class CrearIngreso extends AppCompatActivity {
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(CrearIngreso.this, new TimePickerDialog.OnTimeSetListener() {
+        mTimePicker = new TimePickerDialog(CrearEgreso.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 horaSeleccionada = selectedHour + ":" + selectedMinute;
@@ -116,18 +121,18 @@ public class CrearIngreso extends AppCompatActivity {
         String hora = horaSeleccionada; // debes actualizar esto con la hora seleccionada
         String userId = auth.getCurrentUser().getUid();
 
-        Map<String, Object> ingreso = new HashMap<>();
-        ingreso.put("titulo", titulo);
-        ingreso.put("descripcion", descripcion);
-        ingreso.put("monto", monto);
-        ingreso.put("fecha", fecha);
-        ingreso.put("hora", hora);
-        ingreso.put("userId", userId);
+        Map<String, Object> egreso = new HashMap<>();
+        egreso.put("titulo", titulo);
+        egreso.put("descripcion", descripcion);
+        egreso.put("monto", monto);
+        egreso.put("fecha", fecha);
+        egreso.put("hora", hora);
+        egreso.put("userId", userId);
 
-        db.collection("ingresos").add(ingreso)
+        db.collection("egresos").add(egreso)
                 .addOnSuccessListener(documentReference -> {
                     // Redirigir a ListaIngreso
-                    Intent intent = new Intent(CrearIngreso.this, ListaIngreso.class);
+                    Intent intent = new Intent(CrearEgreso.this, ListarEgreso.class);
                     startActivity(intent);
                     finish();
                 })

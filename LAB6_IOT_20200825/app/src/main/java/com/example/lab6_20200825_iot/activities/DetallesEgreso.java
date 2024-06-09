@@ -6,24 +6,30 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.example.lab6_20200825_iot.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DetallesIngreso extends AppCompatActivity {
+public class DetallesEgreso extends AppCompatActivity {
 
     private TextView tituloTextView, descripcionTextView, montoTextView, fechaTextView, horaTextView;
     private Button editarButton, borrarButton;
     private FirebaseFirestore db;
-    private String ingresoId;
+    private String egresoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalles_ingreso);
+        setContentView(R.layout.activity_detalles_egreso);
 
         tituloTextView = findViewById(R.id.titulodetalle);
         descripcionTextView = findViewById(R.id.descriciondetalle);
@@ -37,23 +43,23 @@ public class DetallesIngreso extends AppCompatActivity {
         Button resumen = findViewById(R.id.resumenbutton);
         Button cerrarSesionButton = findViewById(R.id.cerrarsession);
         ingreso.setOnClickListener(v -> {
-            Intent intent1 = new Intent(DetallesIngreso.this, ListaIngreso.class);
+            Intent intent1 = new Intent(DetallesEgreso.this, ListaIngreso.class);
             startActivity(intent1);
         });
         egreso.setOnClickListener(v -> {
-            Intent intent1 = new Intent(DetallesIngreso.this, ListarEgreso.class);
+            Intent intent1 = new Intent(DetallesEgreso.this, ListarEgreso.class);
             startActivity(intent1);
         });
         resumen.setOnClickListener(v -> {
-            Intent intent1 = new Intent(DetallesIngreso.this, Resumen.class);
+            Intent intent1 = new Intent(DetallesEgreso.this, Resumen.class);
             startActivity(intent1);
         });
         cerrarSesionButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            AuthUI.getInstance().signOut(DetallesIngreso.this)
+            AuthUI.getInstance().signOut(DetallesEgreso.this)
                     .addOnCompleteListener(task -> {
-                        Credentials.getClient(DetallesIngreso.this).disableAutoSignIn();
-                        Intent loginIntent = new Intent(DetallesIngreso.this, MainActivity.class);
+                        Credentials.getClient(DetallesEgreso.this).disableAutoSignIn();
+                        Intent loginIntent = new Intent(DetallesEgreso.this, MainActivity.class);
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(loginIntent);
                         finish();
@@ -64,8 +70,8 @@ public class DetallesIngreso extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            ingresoId = intent.getStringExtra("ingresoId");
-            Log.d("DetallesIngreso", "Received ingresoId: " + ingresoId);
+            egresoId = intent.getStringExtra("egresoId");
+            Log.d("DetallesIngreso", "Received egresoId: " + egresoId);
             tituloTextView.setText(intent.getStringExtra("titulo"));
             descripcionTextView.setText(intent.getStringExtra("descripcion"));
             montoTextView.setText(String.valueOf(intent.getDoubleExtra("monto", 0)));
@@ -74,9 +80,9 @@ public class DetallesIngreso extends AppCompatActivity {
         }
 
         editarButton.setOnClickListener(v -> {
-            Log.d("DetallesIngreso", "Edit button clicked for ingresoId: " + ingresoId);
-            Intent editIntent = new Intent(DetallesIngreso.this, EditarIngreso.class);
-            editIntent.putExtra("ingresoId", ingresoId);
+            Log.d("DetallesIngreso", "Edit button clicked for egresoId: " + egresoId);
+            Intent editIntent = new Intent(DetallesEgreso.this, EditarEgreso.class);
+            editIntent.putExtra("egresoId", egresoId);
             editIntent.putExtra("titulo", tituloTextView.getText().toString());
             editIntent.putExtra("descripcion", descripcionTextView.getText().toString());
             editIntent.putExtra("monto", Double.parseDouble(montoTextView.getText().toString()));
@@ -86,20 +92,19 @@ public class DetallesIngreso extends AppCompatActivity {
         });
 
         borrarButton.setOnClickListener(v -> {
-            Log.d("DetallesIngreso", "Delete button clicked for ingresoId: " + ingresoId);
-            db.collection("ingresos").document(ingresoId)
+            Log.d("DetallesIngreso", "Delete button clicked for ingresoId: " + egresoId);
+            db.collection("egresos").document(egresoId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Log.d("DetallesIngreso", "Ingreso deleted successfully");
-                        Intent listIntent = new Intent(DetallesIngreso.this, ListaIngreso.class);
+                        Intent listIntent = new Intent(DetallesEgreso.this, ListarEgreso.class);
                         listIntent.putExtra("deleted", true);
                         startActivity(listIntent);
                         finish();
                     })
                     .addOnFailureListener(e -> {
                         Log.e("DetallesIngreso", "Error deleting ingreso", e);
-                        Toast.makeText(DetallesIngreso.this, "No se pudo eliminar el ingreso", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetallesEgreso.this, "No se pudo eliminar el ingreso", Toast.LENGTH_SHORT).show();
                     });
         });
-    }
-}
+    }}
