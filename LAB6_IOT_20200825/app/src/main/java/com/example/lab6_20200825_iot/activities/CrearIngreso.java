@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.lab6_20200825_iot.R;
 import com.firebase.ui.auth.AuthUI;
@@ -110,11 +112,25 @@ public class CrearIngreso extends AppCompatActivity {
 
     private void guardarIngreso() {
         String titulo = tituloEditText.getText().toString();
-        String descripcion = descripcionEditText.getText().toString();
-        double monto = Double.parseDouble(montoEditText.getText().toString());
+        String descripcion = descripcionEditText.getText().toString().trim(); // Eliminamos espacios en blanco alrededor
+        String montoStr = montoEditText.getText().toString().trim();
         String fecha = fechaSeleccionada; // debes actualizar esto con la fecha seleccionada
         String hora = horaSeleccionada; // debes actualizar esto con la hora seleccionada
         String userId = auth.getCurrentUser().getUid();
+
+        // Validación del monto para asegurar que es un número válido
+        if (montoStr.isEmpty()) {
+            Toast.makeText(this, "El monto no puede estar vacío", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double monto;
+        try {
+            monto = Double.parseDouble(montoStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "El monto debe ser un número decimal válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String, Object> ingreso = new HashMap<>();
         ingreso.put("titulo", titulo);
@@ -126,13 +142,15 @@ public class CrearIngreso extends AppCompatActivity {
 
         db.collection("ingresos").add(ingreso)
                 .addOnSuccessListener(documentReference -> {
-                    // Redirigir a ListaIngreso
+                    // Redirigir a ListaEgreso
                     Intent intent = new Intent(CrearIngreso.this, ListaIngreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     // Maneja el error
+                    Toast.makeText(this, "Error al guardar el ingreso", Toast.LENGTH_SHORT).show();
                 });
     }
+
 }

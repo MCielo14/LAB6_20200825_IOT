@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,11 +116,25 @@ public class CrearEgreso extends AppCompatActivity {
 
     private void guardarIngreso() {
         String titulo = tituloEditText.getText().toString();
-        String descripcion = descripcionEditText.getText().toString();
-        double monto = Double.parseDouble(montoEditText.getText().toString());
+        String descripcion = descripcionEditText.getText().toString().trim(); // Eliminamos espacios en blanco alrededor
+        String montoStr = montoEditText.getText().toString().trim();
         String fecha = fechaSeleccionada; // debes actualizar esto con la fecha seleccionada
         String hora = horaSeleccionada; // debes actualizar esto con la hora seleccionada
         String userId = auth.getCurrentUser().getUid();
+
+        // Validación del monto para asegurar que es un número válido
+        if (montoStr.isEmpty()) {
+            Toast.makeText(this, "El monto no puede estar vacío", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double monto;
+        try {
+            monto = Double.parseDouble(montoStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "El monto debe ser un número decimal válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String, Object> egreso = new HashMap<>();
         egreso.put("titulo", titulo);
@@ -131,13 +146,15 @@ public class CrearEgreso extends AppCompatActivity {
 
         db.collection("egresos").add(egreso)
                 .addOnSuccessListener(documentReference -> {
-                    // Redirigir a ListaIngreso
+                    // Redirigir a ListaEgreso
                     Intent intent = new Intent(CrearEgreso.this, ListarEgreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     // Maneja el error
+                    Toast.makeText(this, "Error al guardar el egreso", Toast.LENGTH_SHORT).show();
                 });
     }
+
 }
