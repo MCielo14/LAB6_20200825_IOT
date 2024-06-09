@@ -80,7 +80,7 @@ public class EditarEgreso extends AppCompatActivity {
             montoEditText.setText(String.valueOf(intent.getDoubleExtra("monto", 0)));
             fechaTextView.setText(intent.getStringExtra("fecha"));
             horaTextView.setText(intent.getStringExtra("hora"));
-            Log.d("EditarIngreso", "Editing ingreso with ID: " + egresoId);
+            Log.d("EditarIngreso", "Editar egreso con ID: " + egresoId);
         }
 
         guardarButton.setOnClickListener(v -> guardarCambiosIngreso());
@@ -88,8 +88,8 @@ public class EditarEgreso extends AppCompatActivity {
 
     private void guardarCambiosIngreso() {
         if (egresoId == null) {
-            Log.e("EditarIngreso", "Ingreso ID is null");
-            Toast.makeText(this, "No se pudo identificar el ingreso", Toast.LENGTH_SHORT).show();
+            Log.e("EditarIngreso", "Egreso ID es nulo");
+            Toast.makeText(this, "No se pudo identificar el egreso", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -103,15 +103,15 @@ public class EditarEgreso extends AppCompatActivity {
         db.collection("egresos").document(egresoId)
                 .update(egreso)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("EditarIngreso", "Ingreso updated successfully");
+                    Log.d("EditarIngreso", "Egreso actualizado ");
                     Toast.makeText(EditarEgreso.this, "Egreso cambiado", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditarEgreso.this, ListarEgreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("EditarIngreso", "Error updating ingreso", e);
-                    Toast.makeText(EditarEgreso.this, "No se pudo verificar el ingreso", Toast.LENGTH_SHORT).show();
+                    Log.e("EditarIngreso", "Error actualizando egreso", e);
+                    Toast.makeText(EditarEgreso.this, "No se pudo verificar el egreso", Toast.LENGTH_SHORT).show();
                 });
     }
 }

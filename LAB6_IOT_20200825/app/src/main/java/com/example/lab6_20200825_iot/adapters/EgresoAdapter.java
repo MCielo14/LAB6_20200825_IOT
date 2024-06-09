@@ -37,14 +37,14 @@ public class EgresoAdapter extends RecyclerView.Adapter<EgresoAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Egreso egreso = egresoList.get(position);
         if (egreso != null) {
-            Log.d("IngresoAdapter", "Binding data for egresoId: " + egreso.getId());
+            Log.d("EgresoAdapter", "egresoId: " + egreso.getId());
             holder.tituloTextView.setText(egreso.getTitulo());
             holder.montoTextView.setText(String.valueOf(egreso.getMonto()));
             holder.fechaTextView.setText(egreso.getFecha());
             holder.horaTextView.setText(egreso.getHora());
 
             holder.detallesButton.setOnClickListener(v -> {
-                Log.d("EgresoAdapter", "Detalles button clicked for egresoId: " + egreso.getId());
+                Log.d("EgresoAdapter", "Detalles egresoId: " + egreso.getId());
                 Intent intent = new Intent(context, DetallesEgreso.class);
                 intent.putExtra("egresoId", egreso.getId());
                 intent.putExtra("titulo", egreso.getTitulo());
@@ -55,7 +55,7 @@ public class EgresoAdapter extends RecyclerView.Adapter<EgresoAdapter.ViewHolder
                 context.startActivity(intent);
             });
         } else {
-            Log.e("EgresoAdapter", "Egreso is null at position: " + position);
+            Log.e("EgresoAdapter", "Egreso nulo: " + position);
         }
     }
 

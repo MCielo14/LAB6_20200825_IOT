@@ -76,18 +76,17 @@ public class ListarEgreso extends AppCompatActivity {
         });
         cerrarSesionButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
+            // Cierra la sesión del usuario
             AuthUI.getInstance().signOut(ListarEgreso.this)
                     .addOnCompleteListener(task -> {
                         Credentials.getClient(ListarEgreso.this).disableAutoSignIn();
                         Intent loginIntent = new Intent(ListarEgreso.this, MainActivity.class);
+                        // Esta parte de añadir flags al intent se hizo con Chat GPT para limpiar las actividades
                         loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(loginIntent);
                         finish();
                     });
         });
-
-
-        // Verifica si un ingreso fue eliminado
         Intent intent = getIntent();
         if (intent != null && intent.getBooleanExtra("deleted", false)) {
             cargarEgresos();
@@ -104,7 +103,7 @@ public class ListarEgreso extends AppCompatActivity {
                         egresoList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Egreso egreso = document.toObject(Egreso.class);
-                            egreso.setId(document.getId()); // Asigna el ID del documento
+                            egreso.setId(document.getId());
                             Log.d("ListaEgreso", "Documento cargado: " + document.getId());
                             egresoList.add(egreso);
                         }

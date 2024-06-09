@@ -1,7 +1,7 @@
 
 package com.example.lab6_20200825_iot.activities;
 
-// Importaciones necesarias
+
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -19,19 +19,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+// RC_SIGN_IN se usa para identificar el inicio de sesión
     private static final int RC_SIGN_IN = 123;
     private final Intent signInIntent;
 
     public MainActivity() {
-        // Configurar FirebaseUI
+        // Se configura los tres tipos de autenticación
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build()
         );
 
-        // Personalizar la pantalla de inicio de sesión
+        // Se usa una vista de logueo personalizada ya que en el lab de indica que se requiere logo
         AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
                 .Builder(R.layout.login_personalizado)
                 .setEmailButtonId(R.id.email_button)
@@ -43,24 +43,23 @@ public class MainActivity extends AppCompatActivity {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setAuthMethodPickerLayout(customLayout)
-                .setIsSmartLockEnabled(false) // Deshabilitar Smart Lock
-                .setLogo(R.drawable.logo)  // Aquí pones tu logo
-                .setTheme(R.style.FirebaseUITheme)   // Aquí pones tu tema personalizado
+                .setIsSmartLockEnabled(false)
+                .setLogo(R.drawable.logo)
+                .setTheme(R.style.FirebaseUITheme)
                 .build();
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Cierra la sesión si el usuario ya está autenticado
+        // Se obtiene una instancia del Firebase
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        // Se comprueba si hay un usario autenticado previamente
         if (auth.getCurrentUser() != null) {
             auth.signOut();
             Credentials.getClient(this).disableAutoSignIn();
         }
-
-        // Iniciar la pantalla de inicio de sesión
+        // Se incia la actividad de inicio de sesión
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -70,14 +69,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
-                // Inicio de sesión exitoso
+                // Cuano se tiene un inicio de sesión exitoso se le redirige a ListaIngreso
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                // Redirigir a la actividad ListaIngreso
                 Intent intent = new Intent(MainActivity.this, ListaIngreso.class);
                 startActivity(intent);
                 finish();
             } else {
-                // Maneja el error
             }
         }
     }

@@ -9,7 +9,7 @@ public class Ingreso {
     private String hora;
     private String userId;
 
-    // Constructor vacío necesario para Firestore
+
     public Ingreso() {
     }
 
@@ -23,7 +23,7 @@ public class Ingreso {
         this.userId = userId;
     }
 
-    // Getters y setters
+
     public String getId() {
         return id;
     }

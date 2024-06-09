@@ -71,7 +71,6 @@ public class DetallesEgreso extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             egresoId = intent.getStringExtra("egresoId");
-            Log.d("DetallesIngreso", "Received egresoId: " + egresoId);
             tituloTextView.setText(intent.getStringExtra("titulo"));
             descripcionTextView.setText(intent.getStringExtra("descripcion"));
             montoTextView.setText(String.valueOf(intent.getDoubleExtra("monto", 0)));
@@ -80,7 +79,6 @@ public class DetallesEgreso extends AppCompatActivity {
         }
 
         editarButton.setOnClickListener(v -> {
-            Log.d("DetallesIngreso", "Edit button clicked for egresoId: " + egresoId);
             Intent editIntent = new Intent(DetallesEgreso.this, EditarEgreso.class);
             editIntent.putExtra("egresoId", egresoId);
             editIntent.putExtra("titulo", tituloTextView.getText().toString());
@@ -92,19 +90,16 @@ public class DetallesEgreso extends AppCompatActivity {
         });
 
         borrarButton.setOnClickListener(v -> {
-            Log.d("DetallesIngreso", "Delete button clicked for ingresoId: " + egresoId);
             db.collection("egresos").document(egresoId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
-                        Log.d("DetallesIngreso", "Ingreso deleted successfully");
                         Intent listIntent = new Intent(DetallesEgreso.this, ListarEgreso.class);
                         listIntent.putExtra("deleted", true);
                         startActivity(listIntent);
                         finish();
                     })
                     .addOnFailureListener(e -> {
-                        Log.e("DetallesIngreso", "Error deleting ingreso", e);
-                        Toast.makeText(DetallesEgreso.this, "No se pudo eliminar el ingreso", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetallesEgreso.this, "No se pudo eliminar el egreso", Toast.LENGTH_SHORT).show();
                     });
         });
     }}

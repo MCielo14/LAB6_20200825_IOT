@@ -78,9 +78,6 @@ public class ListaIngreso extends AppCompatActivity {
                         finish();
                     });
         });
-
-
-        // Verifica si un ingreso fue eliminado
         Intent intent = getIntent();
         if (intent != null && intent.getBooleanExtra("deleted", false)) {
             cargarIngresos();
@@ -97,7 +94,7 @@ public class ListaIngreso extends AppCompatActivity {
                         ingresoList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Ingreso ingreso = document.toObject(Ingreso.class);
-                            ingreso.setId(document.getId()); // Asigna el ID del documento
+                            ingreso.setId(document.getId());
                             Log.d("ListaIngreso", "Documento cargado: " + document.getId());
                             ingresoList.add(ingreso);
                         }

@@ -75,7 +75,7 @@ public class EditarIngreso extends AppCompatActivity {
             montoEditText.setText(String.valueOf(intent.getDoubleExtra("monto", 0)));
             fechaTextView.setText(intent.getStringExtra("fecha"));
             horaTextView.setText(intent.getStringExtra("hora"));
-            Log.d("EditarIngreso", "Editing ingreso with ID: " + ingresoId);
+            Log.d("EditarIngreso", "Editar ingreso con ID: " + ingresoId);
         }
 
         guardarButton.setOnClickListener(v -> guardarCambiosIngreso());
@@ -83,14 +83,14 @@ public class EditarIngreso extends AppCompatActivity {
 
     private void guardarCambiosIngreso() {
         if (ingresoId == null) {
-            Log.e("EditarIngreso", "Ingreso ID is null");
+            Log.e("EditarIngreso", "Ingreso ID válido el actual es nulo");
             Toast.makeText(this, "No se pudo identificar el ingreso", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String descripcion = descripcionEditText.getText().toString();
         double monto = Double.parseDouble(montoEditText.getText().toString());
-
+        // Se añade un hash map para añadir una clave y un valor, esto se usa para actualizar los datos de la bd
         Map<String, Object> ingreso = new HashMap<>();
         ingreso.put("descripcion", descripcion);
         ingreso.put("monto", monto);
@@ -98,14 +98,14 @@ public class EditarIngreso extends AppCompatActivity {
         db.collection("ingresos").document(ingresoId)
                 .update(ingreso)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("EditarIngreso", "Ingreso updated successfully");
+                    Log.d("EditarIngreso", "Ingreso cambiado");
                     Toast.makeText(EditarIngreso.this, "Ingreso cambiado", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditarIngreso.this, ListaIngreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("EditarIngreso", "Error updating ingreso", e);
+                    Log.e("EditarIngreso", "Error actualizando ingreso", e);
                     Toast.makeText(EditarIngreso.this, "No se pudo verificar el ingreso", Toast.LENGTH_SHORT).show();
                 });
     }

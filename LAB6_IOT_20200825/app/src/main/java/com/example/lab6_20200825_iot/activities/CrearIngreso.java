@@ -76,7 +76,7 @@ public class CrearIngreso extends AppCompatActivity {
                     });
         });
     }
-
+    // Se crea el metodo seleccionarFecha con ayuda de CHATGPT
     private void seleccionarFecha() {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -93,6 +93,7 @@ public class CrearIngreso extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
+    // Se crea el metodo seleccionar hora con ayuda de CHATGPT
 
     private void seleccionarHora() {
         Calendar mcurrentTime = Calendar.getInstance();
@@ -112,18 +113,19 @@ public class CrearIngreso extends AppCompatActivity {
 
     private void guardarIngreso() {
         String titulo = tituloEditText.getText().toString();
-        String descripcion = descripcionEditText.getText().toString().trim(); // Eliminamos espacios en blanco alrededor
+        // Se eliminan los espacios en blanco para la desripcion y no tiene validacion para que soporte que la descripcion pueda estar vacia
+        String descripcion = descripcionEditText.getText().toString().trim();
         String montoStr = montoEditText.getText().toString().trim();
-        String fecha = fechaSeleccionada; // debes actualizar esto con la fecha seleccionada
-        String hora = horaSeleccionada; // debes actualizar esto con la hora seleccionada
+        String fecha = fechaSeleccionada;
+        String hora = horaSeleccionada;
         String userId = auth.getCurrentUser().getUid();
 
-        // Validación del monto para asegurar que es un número válido
+     // Se valia que el monto no este vacío
         if (montoStr.isEmpty()) {
             Toast.makeText(this, "El monto no puede estar vacío", Toast.LENGTH_SHORT).show();
             return;
         }
-
+    // Se valida que el monto se un número decimal
         double monto;
         try {
             monto = Double.parseDouble(montoStr);
@@ -142,13 +144,11 @@ public class CrearIngreso extends AppCompatActivity {
 
         db.collection("ingresos").add(ingreso)
                 .addOnSuccessListener(documentReference -> {
-                    // Redirigir a ListaEgreso
                     Intent intent = new Intent(CrearIngreso.this, ListaIngreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Maneja el error
                     Toast.makeText(this, "Error al guardar el ingreso", Toast.LENGTH_SHORT).show();
                 });
     }

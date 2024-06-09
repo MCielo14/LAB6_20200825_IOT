@@ -80,7 +80,7 @@ public class CrearEgreso extends AppCompatActivity {
                     });
         });
     }
-
+    // Se crea el metodo seleccionarFecha con ayuda de CHATGPT
     private void seleccionarFecha() {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -97,7 +97,7 @@ public class CrearEgreso extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
-
+    // Se crea el metodo seleccionar hora con ayuda de CHATGPT
     private void seleccionarHora() {
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
@@ -116,13 +116,12 @@ public class CrearEgreso extends AppCompatActivity {
 
     private void guardarIngreso() {
         String titulo = tituloEditText.getText().toString();
-        String descripcion = descripcionEditText.getText().toString().trim(); // Eliminamos espacios en blanco alrededor
+        String descripcion = descripcionEditText.getText().toString().trim();
         String montoStr = montoEditText.getText().toString().trim();
-        String fecha = fechaSeleccionada; // debes actualizar esto con la fecha seleccionada
-        String hora = horaSeleccionada; // debes actualizar esto con la hora seleccionada
+        String fecha = fechaSeleccionada;
+        String hora = horaSeleccionada;
         String userId = auth.getCurrentUser().getUid();
 
-        // Validación del monto para asegurar que es un número válido
         if (montoStr.isEmpty()) {
             Toast.makeText(this, "El monto no puede estar vacío", Toast.LENGTH_SHORT).show();
             return;
@@ -146,13 +145,11 @@ public class CrearEgreso extends AppCompatActivity {
 
         db.collection("egresos").add(egreso)
                 .addOnSuccessListener(documentReference -> {
-                    // Redirigir a ListaEgreso
                     Intent intent = new Intent(CrearEgreso.this, ListarEgreso.class);
                     startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Maneja el error
                     Toast.makeText(this, "Error al guardar el egreso", Toast.LENGTH_SHORT).show();
                 });
     }

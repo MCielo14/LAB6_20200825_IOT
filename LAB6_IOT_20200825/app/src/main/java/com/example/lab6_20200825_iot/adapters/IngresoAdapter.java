@@ -36,14 +36,14 @@ public class IngresoAdapter extends RecyclerView.Adapter<IngresoAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Ingreso ingreso = ingresoList.get(position);
         if (ingreso != null) {
-            Log.d("IngresoAdapter", "Binding data for ingresoId: " + ingreso.getId());
+            Log.d("IngresoAdapter", "ingresoId: " + ingreso.getId());
             holder.tituloTextView.setText(ingreso.getTitulo());
             holder.montoTextView.setText(String.valueOf(ingreso.getMonto()));
             holder.fechaTextView.setText(ingreso.getFecha());
             holder.horaTextView.setText(ingreso.getHora());
 
             holder.detallesButton.setOnClickListener(v -> {
-                Log.d("IngresoAdapter", "Detalles button clicked for ingresoId: " + ingreso.getId());
+                Log.d("IngresoAdapter", "Detalles ingresoId: " + ingreso.getId());
                 Intent intent = new Intent(context, DetallesIngreso.class);
                 intent.putExtra("ingresoId", ingreso.getId());
                 intent.putExtra("titulo", ingreso.getTitulo());
@@ -54,7 +54,7 @@ public class IngresoAdapter extends RecyclerView.Adapter<IngresoAdapter.ViewHold
                 context.startActivity(intent);
             });
         } else {
-            Log.e("IngresoAdapter", "Ingreso is null at position: " + position);
+            Log.e("IngresoAdapter", "Ingreso nulo: " + position);
         }
     }
 
