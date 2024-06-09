@@ -4,15 +4,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
     </style>
 
     <!-- Tema personalizado para FirebaseUI -->
     <style name="FirebaseUITheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:buttonStyle">@style/MyButtonStyle</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:buttonStyle">@style/MyButtonStyle</item>
+
     </style>
 
     <!-- Estilo personalizado para botones -->

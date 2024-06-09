@@ -13,13 +13,25 @@
         android:theme="@style/Theme.LAB620200825IOT"
         tools:targetApi="31">
         <activity
-            android:name=".EditarIngreso"
+            android:name=".EditarEgreso"
             android:exported="false" />
         <activity
-            android:name=".DetallesIngreso"
+            android:name=".DetallesEgreso"
             android:exported="false" />
         <activity
-            android:name=".CrearIngreso"
+            android:name=".ListarEgresos"
+            android:exported="false" />
+        <activity
+            android:name=".CrearEgreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditarIngreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DetallesIngreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CrearIngreso"
             android:exported="false" />
         <activity
             android:name=".activities.editar_ingreso"

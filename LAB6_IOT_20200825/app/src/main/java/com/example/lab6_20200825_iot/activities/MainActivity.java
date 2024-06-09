@@ -1,3 +1,4 @@
+
 package com.example.lab6_20200825_iot.activities;
 
 // Importaciones necesarias
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // Cierra la sesión si el usuario ya está autenticado
         FirebaseAuth auth = FirebaseAuth.getInstance();
