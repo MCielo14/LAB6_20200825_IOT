@@ -37,6 +37,9 @@
         <activity
             android:name=".activities.ListaIngreso"
             android:exported="false" />
+        <activity
+            android:name=".activities.Resumen"
+            android:exported="false" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
