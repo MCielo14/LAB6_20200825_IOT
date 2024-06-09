@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListaIngreso">
+    tools:context=".activities.ListaIngreso">
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="729dp"
@@ -29,9 +29,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="  Ingresos"
                 android:textColor="@color/white"
-                android:text="  Lista de Tareas"
-                android:textSize="30sp"/>
+                android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,12 +61,12 @@
                     android:gravity="center">
 
                     <Button
-                        android:id="@+id/crearNuevaTarea"
+                        android:id="@+id/crearNuevoIngreso"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/butonlila"
-                        android:text="Crear Nueva Tarea"
+                        android:text="Crear Nuevo Ingreso"
                         android:textColor="@color/white"/>
                 </LinearLayout>
             </LinearLayout>
@@ -87,7 +87,7 @@
                 android:orientation="vertical" >
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_tareas"
+                    android:id="@+id/recycler_view_ingresos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"/>

@@ -1,4 +1,4 @@
-package com.example.lab6_20200825_iot;
+package com.example.lab6_20200825_iot.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.lab6_20200825_iot.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.credentials.Credentials;
 import com.google.firebase.auth.FirebaseAuth;

@@ -13,7 +13,25 @@
         android:theme="@style/Theme.LAB620200825IOT"
         tools:targetApi="31">
         <activity
-            android:name=".ListaIngreso"
+            android:name=".EditarIngreso"
+            android:exported="false" />
+        <activity
+            android:name=".DetallesIngreso"
+            android:exported="false" />
+        <activity
+            android:name=".CrearIngreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.editar_ingreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.detalles_ingreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.crear_ingreso"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ListaIngreso"
             android:exported="false" />
 
         <meta-data
@@ -21,7 +39,7 @@
             android:value="@string/facebook_application_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

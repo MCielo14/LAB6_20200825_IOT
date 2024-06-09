@@ -1,10 +1,12 @@
-package com.example.lab6_20200825_iot;
+package com.example.lab6_20200825_iot.activities;
 
 // Importaciones necesarias
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.lab6_20200825_iot.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.IdpResponse;
